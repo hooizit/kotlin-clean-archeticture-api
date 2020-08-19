@@ -8,9 +8,7 @@ import java.util.concurrent.CompletionStage
 @RequestMapping("/products")
 interface ProductsResource {
     @GetMapping("/")
-    fun getAllProducts() {
-        println("get all products list")
-    }
+    fun getAllProducts(): CompletionStage<List<ProductDto>>
 
     @GetMapping("/{code}")
     fun getProductByCode(@PathVariable("code") code: String): CompletionStage<ProductDto>

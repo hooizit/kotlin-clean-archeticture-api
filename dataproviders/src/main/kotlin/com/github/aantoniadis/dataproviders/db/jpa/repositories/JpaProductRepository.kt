@@ -30,4 +30,6 @@ open class JpaProductRepository(private val dbProductRepository: DBProductReposi
         return getByProductCode(code)
     }
 
+    override fun getAllProducts() = dbProductRepository.findAll().map { productEntity -> productEntity.toProduct() }
+
 }

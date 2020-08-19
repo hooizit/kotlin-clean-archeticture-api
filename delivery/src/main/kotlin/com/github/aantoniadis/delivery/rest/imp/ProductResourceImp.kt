@@ -6,10 +6,7 @@ import com.github.aantoniadis.delivery.rest.api.ProductsResource
 import com.github.aantoniadis.delivery.rest.api.toProduct
 import com.github.aantoniadis.delivery.rest.api.toProductDto
 import com.github.aantoniadis.delivery.usecases.core.UseCaseExecutor
-import com.github.aantoniadis.delivery.usecases.core.product.CreateProductUseCase
-import com.github.aantoniadis.delivery.usecases.core.product.DeleteProductUseCase
-import com.github.aantoniadis.delivery.usecases.core.product.GetProductByIdUseCase
-import com.github.aantoniadis.delivery.usecases.core.product.UpdateProductUseCase
+import com.github.aantoniadis.delivery.usecases.core.product.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
@@ -21,7 +18,8 @@ class ProductResourceImp(
     private val getProductByIdUseCase: GetProductByIdUseCase,
     private val createProductUseCase: CreateProductUseCase,
     private val deleteProductUseCase: DeleteProductUseCase,
-    private val updateProductUseCase: UpdateProductUseCase
+    private val updateProductUseCase: UpdateProductUseCase,
+    private val getAllProductsUseCase: GetAllProductsUseCase
 ) : ProductsResource {
 
     override fun getProductByCode(@PathVariable("code") code: String) =
@@ -54,5 +52,12 @@ class ProductResourceImp(
                     requestDto = code,
                     requestConverter = { ProductCode(it) },
                     responseConverter = { _ -> ResponseEntity<Unit>(HttpStatus.OK) })
+
+    override fun getAllProducts() =
+            useCaseExecutor(
+                    useCase = getAllProductsUseCase,
+                    requestDto = null,
+                    requestConverter = {  },
+                    responseConverter = { productList -> productList.map { product -> product.toProductDto() }})
 
 }

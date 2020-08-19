@@ -6,10 +6,7 @@ import com.github.aantoniadis.delivery.rest.imp.ProductResourceImp
 import com.github.aantoniadis.delivery.usecases.core.UseCaseExecutor
 import com.github.aantoniadis.delivery.usecases.core.UseCaseExecutorImp
 import com.github.aantoniadis.delivery.usecases.core.gateways.ProductRepository
-import com.github.aantoniadis.delivery.usecases.core.product.CreateProductUseCase
-import com.github.aantoniadis.delivery.usecases.core.product.DeleteProductUseCase
-import com.github.aantoniadis.delivery.usecases.core.product.GetProductByIdUseCase
-import com.github.aantoniadis.delivery.usecases.core.product.UpdateProductUseCase
+import com.github.aantoniadis.delivery.usecases.core.product.*
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -21,9 +18,10 @@ class Module {
         getProductByIdUseCase: GetProductByIdUseCase,
         createProductUseCase: CreateProductUseCase,
         deleteProductUseCase: DeleteProductUseCase,
-        updateProductUseCase: UpdateProductUseCase
+        updateProductUseCase: UpdateProductUseCase,
+        getAllProductsUseCase: GetAllProductsUseCase
     ) = ProductResourceImp(
-            useCaseExecutor, getProductByIdUseCase, createProductUseCase, deleteProductUseCase, updateProductUseCase
+            useCaseExecutor, getProductByIdUseCase, createProductUseCase, deleteProductUseCase, updateProductUseCase, getAllProductsUseCase
     )
 
     @Bean
@@ -40,6 +38,9 @@ class Module {
 
     @Bean
     fun updateProductUseCase(productRepository: ProductRepository) = UpdateProductUseCase(productRepository)
+
+    @Bean
+    fun getAllProductsUseCase(productRepository: ProductRepository) = GetAllProductsUseCase(productRepository)
 
     @Bean
     fun productRepository(dbProductRepository: DBProductRepository) = JpaProductRepository(dbProductRepository)
