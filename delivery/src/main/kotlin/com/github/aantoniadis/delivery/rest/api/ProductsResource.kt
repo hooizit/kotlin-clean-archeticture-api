@@ -7,7 +7,7 @@ import java.util.concurrent.CompletionStage
 @RestController
 @RequestMapping("/products")
 interface ProductsResource {
-    @GetMapping("/all")
+    @GetMapping("/")
     fun getAllProducts() {
         println("get all products list")
     }
@@ -19,12 +19,10 @@ interface ProductsResource {
     fun createProduct(@RequestBody productDto: ProductDto): CompletionStage<ResponseEntity<Unit>>
 
     @DeleteMapping("/{code}")
-    fun deleteProductByCode(@PathVariable("code") code: String) {
-        println("delete product $code")
-    }
+    fun deleteProduct(@PathVariable("code") code: String): CompletionStage<ResponseEntity<Unit>>
 
     @PutMapping("/{code}")
-    fun updateProductByCode(@PathVariable("code") code: String) {
-        println("update product $code")
-    }
+    fun updateProduct(
+            @PathVariable("code") code: String,
+            @RequestBody productDto: ProductDto): CompletionStage<ProductDto>
 }

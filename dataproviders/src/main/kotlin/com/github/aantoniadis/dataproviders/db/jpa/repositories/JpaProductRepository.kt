@@ -20,4 +20,14 @@ open class JpaProductRepository(private val dbProductRepository: DBProductReposi
         dbProductRepository.save(product.toProductEntity())
     }
 
+    override fun deleteProductByCode(productCode: ProductCode) {
+        dbProductRepository.deleteById(productCode.value)
+    }
+
+    @Transactional
+    override fun update(code: ProductCode, product: Product): Product? {
+        dbProductRepository.save(product.toProductEntity())
+        return getByProductCode(code)
+    }
+
 }
